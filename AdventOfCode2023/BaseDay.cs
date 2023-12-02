@@ -8,10 +8,33 @@ namespace AdventOfCode2023;
 /// </summary>
 public abstract class BaseDay
 {
+    /// <summary>
+    /// Which day this is, for example "1".
+    /// </summary>
     protected virtual string DayName => "NO NAME";
+    
+    /// <summary>
+    /// Implement the solution to part 1 here!
+    /// </summary>
+    /// <param name="lines">The lines from the input/example</param>
+    /// <returns>Nada</returns>
+    protected abstract Task Part1(IEnumerable<string> lines);
+    
+    /// <summary>
+    /// Implement the solution to part 2 here!
+    /// </summary>
+    /// <param name="lines">The lines from the input/example</param>
+    /// <returns>Nada</returns>
+    protected abstract Task Part2(IEnumerable<string> lines);
+    
+    /// <summary>
+    /// Call this from <c>static Main</c>.
+    /// </summary>
+    /// <param name="args">argv</param>
+    /// <returns>Exit code</returns>
     protected async Task<int> RunMain(string[] args)
     {
-        var fileOpt = new Option<FileInfo?>(name: "--file", "Input file to use");
+        var fileOpt = new Option<FileInfo?>(name: "--file", "Input file to use, if not using stdin");
         fileOpt.AddAlias("-f");
 
         var rootCommand = new RootCommand($"Day {DayName}");
@@ -66,16 +89,15 @@ public abstract class BaseDay
         next(lines);
     }
 
-    protected abstract Task Part1(IEnumerable<string> lines);
-    protected abstract Task Part2(IEnumerable<string> lines);
-
     private async Task Part1Wrapper(IEnumerable<string> lines)
     {
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("=== Part 1 ===");
         Console.ResetColor();
+        
         await Part1(lines);
+        
         Console.WriteLine();
     }
     
@@ -85,7 +107,9 @@ public abstract class BaseDay
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("=== Part 2 ===");
         Console.ResetColor();
+        
         await Part2(lines);
+        
         Console.WriteLine();
     }
 }
