@@ -1,6 +1,4 @@
-﻿// using AdventOfCode2023;
-
-using AdventOfCode2023;
+﻿using AdventOfCode2023;
 
 namespace Day1;
 
@@ -22,16 +20,16 @@ internal class Day1 : BaseDay
     
     private static readonly Dictionary<string, int> WordDigitMapping = new()
     {
-        { "zero", 0 },
-        { "one", 1 },
-        { "two", 2 },
+        { "zero",  0 },
+        { "one",   1 },
+        { "two",   2 },
         { "three", 3 },
-        { "four", 4 },
-        { "five", 5 },
-        { "six", 6 },
+        { "four",  4 },
+        { "five",  5 },
+        { "six",   6 },
         { "seven", 7 },
         { "eight", 8 },
-        { "nine", 9 }
+        { "nine",  9 }
     };
     
     protected override string DayName => "1";

@@ -2,46 +2,90 @@
 
 namespace AdventOfCode2023;
 
+/// <summary>
+/// The template for a day. Includes command-line parsing and file reading line by line. Simply inherit this class and
+/// provide the runtime a <c>static Main</c> method. 
+/// </summary>
 public abstract class BaseDay
 {
     protected virtual string DayName => "NO NAME";
     protected async Task<int> RunMain(string[] args)
     {
-        var fileOpt = new Option<FileInfo?>(name: "--file");
+        var fileOpt = new Option<FileInfo?>(name: "--file", "Input file to use");
         fileOpt.AddAlias("-f");
 
         var rootCommand = new RootCommand($"Day {DayName}");
         rootCommand.AddGlobalOption(fileOpt);
 
         var part1Command = new Command("part1");
-        part1Command.SetHandler(file => ReadFile(file, Part1), fileOpt);
+        part1Command.AddAlias("p1");
+        part1Command.AddAlias("1");
+        part1Command.SetHandler(file => Handle(file, Part1Wrapper), fileOpt);
         rootCommand.AddCommand(part1Command);
-        
+
         var part2Command = new Command("part2");
-        part2Command.SetHandler(file => ReadFile(file, Part2), fileOpt);
+        part2Command.AddAlias("p2");
+        part2Command.AddAlias("2");
+        part2Command.SetHandler(file => Handle(file, Part2Wrapper), fileOpt);
         rootCommand.AddCommand(part2Command);
         
-        var bothPartsCommand = new Command("bothparts");
+        var bothPartsCommand = new Command("both-parts");
+        bothPartsCommand.AddAlias("bothparts");
+        bothPartsCommand.AddAlias("bp");
         bothPartsCommand.SetHandler(file =>
         {
-            ReadFile(file, Part1);
-            ReadFile(file, Part2);
+            Handle(file, async lines =>
+            {
+                var enumerable = lines.ToList();
+                await Part1Wrapper(enumerable);
+                await Part2Wrapper(enumerable);
+            });
         }, fileOpt);
         rootCommand.AddCommand(bothPartsCommand);
 
         return await rootCommand.InvokeAsync(args);
     }
 
-    private static void ReadFile(FileInfo? file, Func<IEnumerable<string>, Task> next)
+    private static void Handle(FileInfo? file, Func<IEnumerable<string>, Task> next)
     {
-        if (file is null || !file.Exists)
+        IEnumerable<string> lines;
+        if (Console.IsInputRedirected)
         {
-            throw new ApplicationException("File does not exist");
+            lines = Console.In.ReadToEnd().Split(Environment.NewLine).Where(l => !string.IsNullOrWhiteSpace(l));
         }
+        else
+        {
+            if (file is null || !file.Exists)
+            {
+                throw new ApplicationException("File does not exist");
+            }
 
-        next(File.ReadLines(file.FullName));
+            lines = File.ReadLines(file.FullName);
+        }
+        
+        next(lines);
     }
 
     protected abstract Task Part1(IEnumerable<string> lines);
     protected abstract Task Part2(IEnumerable<string> lines);
+
+    private async Task Part1Wrapper(IEnumerable<string> lines)
+    {
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("=== Part 1 ===");
+        Console.ResetColor();
+        await Part1(lines);
+        Console.WriteLine();
+    }
+    
+    private async Task Part2Wrapper(IEnumerable<string> lines)
+    {
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("=== Part 2 ===");
+        Console.ResetColor();
+        await Part2(lines);
+        Console.WriteLine();
+    }
 }
