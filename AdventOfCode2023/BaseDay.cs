@@ -55,9 +55,9 @@ public abstract class BaseDay
         var bothPartsCommand = new Command("both-parts");
         bothPartsCommand.AddAlias("bothparts");
         bothPartsCommand.AddAlias("bp");
-        bothPartsCommand.SetHandler(file =>
+        bothPartsCommand.SetHandler(async file =>
         {
-            Handle(file, async lines =>
+            await Handle(file, async lines =>
             {
                 var enumerable = lines.ToList();
                 await Part1Wrapper(enumerable);
@@ -69,7 +69,7 @@ public abstract class BaseDay
         return await rootCommand.InvokeAsync(args);
     }
 
-    private static void Handle(FileInfo? file, Func<IEnumerable<string>, Task> next)
+    private static async Task Handle(FileInfo? file, Func<IEnumerable<string>, Task> next)
     {
         IEnumerable<string> lines;
         if (Console.IsInputRedirected)
@@ -86,7 +86,7 @@ public abstract class BaseDay
             lines = File.ReadLines(file.FullName);
         }
         
-        next(lines);
+        await next(lines);
     }
 
     private async Task Part1Wrapper(IEnumerable<string> lines)
