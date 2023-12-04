@@ -1,8 +1,8 @@
 ﻿using AdventOfCode2023;
 
-namespace Day1;
+namespace Day01;
 
-internal class Day1 : BaseDay
+internal class Day01 : BaseDay
 {
     private static readonly Dictionary<string, int> DigitMapping = new()
     {
@@ -85,6 +85,6 @@ internal class Day1 : BaseDay
 
     internal static async Task<int> Main(string[] args)
     {
-        return await new Day1().RunMain(args);
+        return await new Day01().RunMain(args);
     }
 }

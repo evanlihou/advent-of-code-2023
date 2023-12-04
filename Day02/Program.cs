@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 using AdventOfCode2023;
 
-namespace Day2;
+namespace Day02;
 
-internal class Day2 : BaseDay
+internal class Day02 : BaseDay
 {
     protected override string DayName => "2";
     
@@ -70,6 +70,6 @@ internal class Day2 : BaseDay
     
     internal static async Task<int> Main(string[] args)
     {
-        return await new Day2().RunMain(args);
+        return await new Day02().RunMain(args);
     }
 }
