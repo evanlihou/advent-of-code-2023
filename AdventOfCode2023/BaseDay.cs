@@ -1,4 +1,5 @@
 ﻿using System.CommandLine;
+using System.Diagnostics;
 
 namespace AdventOfCode2023;
 
@@ -96,7 +97,11 @@ public abstract class BaseDay
         Console.WriteLine("=== Part 1 ===");
         Console.ResetColor();
         
+        var stopwatch = Stopwatch.StartNew();
         await Part1(lines);
+        stopwatch.Stop();
+        
+        Console.WriteLine($"({stopwatch.ElapsedMilliseconds}ms)");
         
         Console.WriteLine();
     }
@@ -107,9 +112,12 @@ public abstract class BaseDay
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("=== Part 2 ===");
         Console.ResetColor();
-        
+
+        var stopwatch = Stopwatch.StartNew();
         await Part2(lines);
+        stopwatch.Stop();
         
+        Console.WriteLine($"({stopwatch.ElapsedMilliseconds}ms)");
         Console.WriteLine();
     }
 }
