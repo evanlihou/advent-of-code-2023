@@ -10,6 +10,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day03", "Day03\Day03.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day04", "Day04\Day04.csproj", "{3E6F1618-5D33-4D0C-AA19-1CF649C7A1F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day05", "Day05\Day05.csproj", "{95C10477-57FA-4859-9256-084611C88234}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day06", "Day06\Day06.csproj", "{06EC6B1C-BC0A-41E9-BFDD-04D2AD82BA9E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
