@@ -1,5 +1,6 @@
 ﻿using System.CommandLine;
 using System.Diagnostics;
+using Spectre.Console;
 
 namespace AdventOfCode2023;
 
@@ -62,6 +63,7 @@ public abstract class BaseDay
             {
                 var enumerable = lines.ToList();
                 await Part1Wrapper(enumerable);
+                AnsiConsole.WriteLine();
                 await Part2Wrapper(enumerable);
             });
         }, fileOpt);
@@ -86,38 +88,46 @@ public abstract class BaseDay
 
             lines = File.ReadLines(file.FullName);
         }
-        
+
+        AnsiConsole.WriteLine();
         await next(lines);
+        AnsiConsole.WriteLine();
     }
 
     private async Task Part1Wrapper(IEnumerable<string> lines)
     {
-        Console.WriteLine();
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("=== Part 1 ===");
-        Console.ResetColor();
+        var rule = new Rule("Part 1")
+        {
+            Style = new Style(Color.Green),
+            Justification = Justify.Left,
+        };
+        AnsiConsole.Write(rule);
         
         var stopwatch = Stopwatch.StartNew();
-        await Part1(lines);
+        await AnsiConsole.Status().StartAsync("Running...", async ctx =>
+        {
+            ctx.Spinner = Spinner.Known.Star;
+            await Part1(lines);
+        });
+        //await Part1(lines);
         stopwatch.Stop();
         
-        Console.WriteLine($"({stopwatch.ElapsedMilliseconds}ms)");
-        
-        Console.WriteLine();
+        AnsiConsole.MarkupLine($"[lightslategrey]({stopwatch.ElapsedMilliseconds}ms)[/]");
     }
     
     private async Task Part2Wrapper(IEnumerable<string> lines)
     {
-        Console.WriteLine();
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("=== Part 2 ===");
-        Console.ResetColor();
+        var rule = new Rule("Part 2")
+        {
+            Style = new Style(Color.Green),
+            Justification = Justify.Left,
+        };
+        AnsiConsole.Write(rule);
 
         var stopwatch = Stopwatch.StartNew();
         await Part2(lines);
         stopwatch.Stop();
         
-        Console.WriteLine($"({stopwatch.ElapsedMilliseconds}ms)");
-        Console.WriteLine();
+        AnsiConsole.MarkupLine($"[lightslategrey]({stopwatch.ElapsedMilliseconds}ms)[/]");
     }
 }
